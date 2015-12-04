@@ -47,7 +47,7 @@ public class DemoActivity extends Activity {
      * Substitute you own sender ID here. This is the project number you got
      * from the API Console, as described in "Getting Started."
      */
-    String SENDER_ID = “YOUR_SENDER_ID”;
+    String SENDER_ID = "799001879493";
 
     /**
      * Tag used on log messages.

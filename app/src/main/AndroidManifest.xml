@@ -36,6 +36,14 @@
             </intent-filter>
 
         </activity>
+        <activity
+            android:name=".FirstActivity">
+
+        </activity>
+        <activity
+            android:name=".BuyItem">
+
+        </activity>
 
         <meta-data
             android:name="com.google.android.gms.version"

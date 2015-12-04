@@ -19,6 +19,7 @@ package tntstudios.com.br.gcmapp;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 
 import android.app.IntentService;
+import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -98,7 +99,7 @@ public class GcmIntentService extends IntentService {
         mNotificationManager = (NotificationManager)
                 this.getSystemService(Context.NOTIFICATION_SERVICE);
 
-        PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
+       /* PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
                 new Intent(this, DemoActivity.class), 0);
 
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this).setSmallIcon(R.drawable.ic_stat_gcm)
@@ -108,6 +109,33 @@ public class GcmIntentService extends IntentService {
         .setContentText(msg);
 
         mBuilder.setContentIntent(contentIntent);
-        mNotificationManager.notify(NOTIFICATION_ID, mBuilder.build());
+        mNotificationManager.notify(NOTIFICATION_ID, mBuilder.build());*/
+       Intent shareintent = new Intent(this, FirstActivity.class);
+        Intent buyintent = new Intent(this, BuyItem.class);
+// Next, let's turn this into a PendingIntent using
+//   public static PendingIntent getActivity(Context context, int requestCode,
+//       Intent intent, int flags)
+        int requestID = (int) System.currentTimeMillis(); //unique requestID to differentiate between various notification with same NotifId
+        int flags = PendingIntent.FLAG_CANCEL_CURRENT; // cancel old intent and create new one
+        PendingIntent pIntent = PendingIntent.getActivity(this, requestID, shareintent, flags);
+        PendingIntent sIntent = PendingIntent.getActivity(this, requestID, buyintent, flags);
+
+// Now we can attach this to the notification using setContentIntent
+        Notification noti =
+                new NotificationCompat.Builder(this)
+                        .setSmallIcon(R.drawable.ic_launcher)
+                        .setContentTitle("My notification")
+                        .setContentText("Hello World!")
+                        .setContentIntent(pIntent)
+                        .addAction(R.mipmap.ic_share, "Share", pIntent)
+                        .addAction(R.mipmap.ic_buy, "Buy", sIntent).build();
+
+// Hide the notification after its selected
+      //  noti.setAutoCancel(true);
+
+        NotificationManager mNotificationManager =
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+// mId allows you to update the notification later on.
+        mNotificationManager.notify(0, noti);
     }
 }
